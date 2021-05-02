@@ -52,7 +52,7 @@ class ReflectionProcessor
         // Если он задан, то ресолверы не исполняются.
         if (count($filter) > 0) {
             foreach ($methods as $method) {
-                if (in_array($method->getName(), $filter, true)) {
+                if (!in_array($method->getName(), $filter, true)) {
                     continue;
                 }
 
