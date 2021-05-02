@@ -5,7 +5,7 @@
 
 ## Установка
 
-`composer require `
+`composer require proklung/cache-proxificator`
 
 ## Использование
 
