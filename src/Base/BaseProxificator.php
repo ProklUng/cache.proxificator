@@ -22,6 +22,16 @@ use RuntimeException;
 class BaseProxificator
 {
     /**
+     * @var string $env Среда разработки, по умолчанию dev. Если prod, то происходит прегенерация прокси-классов.
+     */
+    protected $env = 'dev';
+
+    /**
+     * @var string $cacheDir Директория, куда по умолчанию складываются прегенерированные прокси-классы.
+     */
+    protected $cacheDir = __DIR__.'/generated-cache-dir';
+
+    /**
      * @var object $source Проксируемый объект.
      */
     protected $source;
@@ -118,6 +128,7 @@ class BaseProxificator
         return $this->proxy;
     }
 
+
     /**
      * Создать параметры проксирования класса на все публичные методы (и не запрещенные ресолверами
      * или указанные через метод onlyMethods),
@@ -178,16 +189,20 @@ class BaseProxificator
      */
     private function generateProxyRuntime() : ?Configuration
     {
+        if (!$this->cacheDir || $this->env === 'dev') {
+            return null;
+        }
+
         $config = new Configuration();
 
         // generate the proxies and store them as files
-        $fileLocator = new FileLocator(__DIR__.'/generated-cache-dir');
+        $fileLocator = new FileLocator($this->cacheDir);
         $config->setGeneratorStrategy(
             new FileWriterGeneratorStrategy($fileLocator)
         );
 
         // set the directory to read the generated proxies from
-        $config->setProxiesTargetDir(__DIR__.'/generated-cache-dir');
+        $config->setProxiesTargetDir($this->cacheDir);
 
         // then register the autoloader
         spl_autoload_register($config->getProxyAutoloader());

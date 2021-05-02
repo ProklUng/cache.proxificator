@@ -27,6 +27,7 @@ class CacheProxificator extends BaseProxificator
      * @param CacheInterface      $cacher              Кэшер.
      * @param ReflectionProcessor $reflectionProcessor Процессор рефлексии.
      * @param array               $filterMethods       Фильтр кэшируемых методов.
+     * @param string              $environment         Окружение.
      *
      * @throws ReflectionException Когда что-то не так с рефлексией.
      */
@@ -34,12 +35,14 @@ class CacheProxificator extends BaseProxificator
         $source,
         CacheInterface $cacher,
         ReflectionProcessor $reflectionProcessor,
-        array $filterMethods = []
+        array $filterMethods = [],
+        string $environment = 'dev'
     ) {
         $this->source = $source;
         $this->cacher = $cacher;
         $this->reflectionProcessor = $reflectionProcessor;
         $this->filterMethods = $filterMethods;
+        $this->env = $environment;
 
         $this->createProxy();
     }

@@ -26,7 +26,8 @@ $decorator = new CacheProxificator(
     new ReflectionProcessor([
         new DisableVoidReturnResolver()
     ]),
-    ['getModel']
+    ['getModel'],
+    'prod' 
 );
 
 $model = $decorator->getId(1);
@@ -79,7 +80,9 @@ $decorator = new CacheProxificator(
         new AnnotationResolver(
             container()->get('annotations.reader')
         )
-    ])
+    ]),
+    [],
+    'prod'    
 );
 
 $model = $decorator->getId(1);
@@ -91,3 +94,14 @@ $model = $decorator->getId(1);
 ### Жесткая установка методов, подлежащих кэшированию
 
 Задается через конструктор. Если фильтр задан, то ресолверы не исполняются.
+
+### Прегенерация прокси-классов на продакшене
+
+По [мотивам](https://github.com/Ocramius/ProxyManager/blob/2.12.x/docs/tuning-for-production.md).
+
+Если в конструкторе задать параметр `$environment`, отличный от `dev` (по умолчанию), то прокси-классы будут прегенерироваться
+в отдельные файлы. Путь к кэшу задается защищенным свойством `$cacheDir`, которое подлежит изменению через наследование.
+
+Также, если это свойство пустое, то прегенерация не будет работать вне зависимости от значения окружения.
+ 
+
