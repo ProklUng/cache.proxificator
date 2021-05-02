@@ -30,7 +30,7 @@ $decorator = new CacheProxificator(
     'prod' 
 );
 
-$model = $decorator->getId(1);
+$model = $decorator->getId();
 ```
 
 После создания проксификатора к методам оригинального объекта обращаться через него. Прокси - в зависимости от  
@@ -85,7 +85,7 @@ $decorator = new CacheProxificator(
     'prod'    
 );
 
-$model = $decorator->getId(1);
+$model = $decorator->getId();
 ```
 
 
@@ -146,5 +146,5 @@ $decorator = new ProxificatorAbstraction(
     'dev'    
 );
 
-$model = $decorator->getId(1);
+$model = $decorator->getId();
 ```
