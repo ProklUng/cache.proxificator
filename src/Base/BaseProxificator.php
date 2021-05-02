@@ -97,10 +97,10 @@ class BaseProxificator
      */
     public function __call(string $name, $arguments)
     {
-        if (!method_exists($this->source, $name) || $name === '__construct') {
+        if (!method_exists($this->source, $name)) {
             throw new RuntimeException(
                 sprintf(
-                    'Метод %s не существует или является конструктором',
+                    'Метод %s не существует.',
                     $name
                 )
             );
@@ -128,10 +128,8 @@ class BaseProxificator
         return $this->proxy;
     }
 
-
     /**
-     * Создать параметры проксирования класса на все публичные методы (и не запрещенные ресолверами
-     * или указанные через метод onlyMethods),
+     * Создать параметры проксирования класса на все публичные методы (и не запрещенные ресолверами),
      * кроме конструктора.
      *
      * @param Closure|null $handler Обработчик.
