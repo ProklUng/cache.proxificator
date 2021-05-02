@@ -100,7 +100,7 @@ class CacheProxificator extends BaseProxificator
      *
      * @return string
      */
-    private function getCacheKey(string $src): string
+    protected function getCacheKey(string $src): string
     {
         return str_replace(
             ['{', '}', '\\', '@', '/', ':'],
