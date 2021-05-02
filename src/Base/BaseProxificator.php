@@ -191,6 +191,10 @@ class BaseProxificator
             return null;
         }
 
+        if (!file_exists($this->cacheDir)) {
+            mkdir($this->cacheDir);
+        }
+
         $config = new Configuration();
 
         // generate the proxies and store them as files
