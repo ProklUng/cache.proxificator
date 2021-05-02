@@ -52,7 +52,8 @@ class ReflectionProcessor
         // Если он задан, то ресолверы не исполняются.
         if (count($filter) > 0) {
             foreach ($methods as $method) {
-                if (!in_array($method->getName(), $filter, true)) {
+                $name = $method->getName();
+                if (!in_array($name, $filter, true) || $name === '__construct') {
                     continue;
                 }
 
@@ -67,6 +68,7 @@ class ReflectionProcessor
                 $result[] = $method;
             }
         }
+
 
         return $result;
     }
@@ -128,6 +130,10 @@ class ReflectionProcessor
      */
     private function throughPipeline(ReflectionMethod $method) : bool
     {
+        if ($method->getName() ===  '__construct') {
+            return false;
+        }
+
         if (count($this->resolvers) === 0) {
             return true;
         }
