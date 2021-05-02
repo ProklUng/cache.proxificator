@@ -104,4 +104,47 @@ $model = $decorator->getId(1);
 
 Также, если это свойство пустое, то прегенерация не будет работать вне зависимости от значения окружения.
  
+## Абстрактнее
 
+**INTERNAL**
+
+Более абстрактный подход, позволяющий загнать не только кэшер.
+
+Класс `Prokl\CacheProxificator\ProxificatorAbstraction`, где конкретные обработчики [pre-access interceptor](https://github.com/Ocramius/ProxyManager/blob/2.12.x/docs/access-interceptor-value-holder.md) и
+[post-access interceptor](https://github.com/Ocramius/ProxyManager/blob/2.12.x/docs/access-interceptor-value-holder.md)
+вынесены в отдельные классы, реализующие интерфейсы `Prokl\CacheProxificator\Contracts\OcramiusProxyHandlerPreInterface` и `Prokl\CacheProxificator\Contracts\OcramiusProxyHandlerPostInterface` соответственно.
+
+Один метод - `public function handler($proxy, $instance, $method, $params, $returnValue, &$returnEarly)`, параметры согласно документации.
+
+Кэшер вынесен в такой класс - `Prokl\CacheProxificator\Handlers\CacheHandler`.
+
+Инициализация:
+
+```php
+use Prokl\CacheProxificator\Handlers\CacheHandler;
+use Prokl\CacheProxificator\ProxificatorAbstraction;
+use Prokl\CacheProxificator\ReflectionProcessor;
+
+class OriginalObject {
+    public function getId() {
+        return 1;
+    }   
+}
+
+// Вынесенный в отдельный класс обработчик кэша.
+$cacheHandler = new CacheHandler(
+    container()->get('example.cacher'),
+    new ReflectionProcessor()
+);
+
+$decorator = new ProxificatorAbstraction(
+    new OriginalObject,
+    new ReflectionProcessor(),
+    $cacheHandler,
+    null,
+    ['getId'],
+    'dev'    
+);
+
+$model = $decorator->getId(1);
+```
