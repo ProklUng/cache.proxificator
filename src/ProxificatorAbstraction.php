@@ -33,6 +33,7 @@ class ProxificatorAbstraction extends BaseProxificator
      * @param OcramiusProxyHandlerPostInterface|null $postInterceptor     Обработчик post-access interceptor.
      * @param array                                  $filterMethods       Фильтр кэшируемых методов.
      * @param string                                 $environment         Окружение.
+     * @param string|null                            $cachePath           Путь к кэшу.
      *
      * @throws ReflectionException Когда что-то не так с рефлексией.
      */
@@ -42,7 +43,8 @@ class ProxificatorAbstraction extends BaseProxificator
         OcramiusProxyHandlerPreInterface $preInterceptor = null,
         OcramiusProxyHandlerPostInterface $postInterceptor = null,
         array $filterMethods = [],
-        string $environment = 'dev'
+        string $environment = 'dev',
+        ?string $cachePath = null
     ) {
         $this->source = $source;
         $this->preInterceptor = $preInterceptor;
@@ -50,6 +52,10 @@ class ProxificatorAbstraction extends BaseProxificator
         $this->reflectionProcessor = $reflectionProcessor;
         $this->filterMethods = $filterMethods;
         $this->env = $environment;
+
+        if ($this->cacheDir !== null) {
+            $this->cacheDir = $cachePath;
+        }
 
         $this->createProxy();
     }
