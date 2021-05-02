@@ -58,14 +58,33 @@ $model = $decorator->getId(1);
 `Cacheble`:
 
 ```php
-    /**
+use Prokl\CacheProxificator\CacheProxificator;
+use Prokl\CacheProxificator\Resolvers\AnnotationResolver;
+use Prokl\CacheProxificator\ReflectionProcessor;
+use Prokl\CacheProxificator\Resolvers\Annotations\Cacheble;
+
+class OriginalObject {
+   /**
      * @Cacheble()
      */
-    public function getId(int $idElement) : int
-    {
+    public function getId() {
+        return 1;
+    }   
+}
 
-    }
+$decorator = new CacheProxificator(
+    new OriginalObject(),
+    new Cacher(),
+    new ReflectionProcessor([
+        new AnnotationResolver(
+            container()->get('annotations.reader')
+        )
+    ])
+);
+
+$model = $decorator->getId(1);
 ```
+
 
 Результат работы метода будет закэширован.
 
