@@ -69,7 +69,7 @@ class CacheProxificator extends BaseProxificator
     public function handler($proxy, $instance, $method, $params, &$returnEarly)
     {
         $returnEarly = true;
-        $keyCache = $this->getCacheKey(get_class($instance) . $method . implode('', $params));
+        $keyCache = $this->getCacheKey(get_class($instance) . $method . $this->implodeRecursive('', $params));
 
         return $this->cacher->get(
             $keyCache,
@@ -107,5 +107,30 @@ class CacheProxificator extends BaseProxificator
             '',
             $src
         );
+    }
+
+    /**
+     * Implode multi-dimensional arrays.
+     *
+     * @param string $separator
+     * @param array  $array
+     *
+     * @return string
+     */
+    private function implodeRecursive(string $separator, array $array): string
+    {
+        $string = '';
+        foreach ($array as $i => $a) {
+            if (is_array($a)) {
+                $string .= $this->implodeRecursive($separator, $a);
+            } else {
+                $string .= $a;
+                if ($i < count($array) - 1) {
+                    $string .= $separator;
+                }
+            }
+        }
+
+        return $string;
     }
 }

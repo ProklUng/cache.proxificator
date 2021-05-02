@@ -5,12 +5,10 @@ namespace Prokl\CacheProxificator\Tests\Cases;
 use Mockery;
 use Prokl\CacheProxificator\Base\BaseProxificator;
 use Prokl\CacheProxificator\CacheProxificator;
-use Prokl\CacheProxificator\Contracts\MethodResolverInterface;
 use Prokl\CacheProxificator\ReflectionProcessor;
 use Prokl\CacheProxificator\Tests\Fixtures\FixtureClass;
 use Prokl\TestingTools\Base\BaseTestCase;
 use ReflectionException;
-use ReflectionMethod;
 use RuntimeException;
 use Symfony\Contracts\Cache\CacheInterface;
 
