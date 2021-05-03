@@ -2,6 +2,7 @@
 
 namespace Prokl\CacheProxificator\Handlers;
 
+use Closure;
 use Prokl\CacheProxificator\Contracts\OcramiusProxyHandlerPreInterface;
 use Prokl\CacheProxificator\ReflectionProcessor;
 use Psr\Cache\CacheItemInterface;
@@ -89,7 +90,11 @@ class CacheHandler implements OcramiusProxyHandlerPreInterface
         foreach ($array as $i => $a) {
             if (is_array($a)) {
                 $string .= $this->implodeRecursive($separator, $a);
-            } else {
+            }
+            else if (is_object($a) && !$a instanceof Closure) {
+                $string .= serialize($a);
+            }
+            else {
                 $string .= $a;
                 if ($i < count($array) - 1) {
                     $string .= $separator;
