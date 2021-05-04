@@ -52,17 +52,17 @@ class BaseProxificator
     protected $proxy;
 
     /**
-     * @var array $filterMethods
+     * @var array $filterMethods Методы, подлежащие фильтрации.
      */
     protected $filterMethods;
 
     /**
-     * @var Closure|null $handlerPreInterceptor
+     * @var Closure|null $handlerPreInterceptor Обработчик pre-access interceptor.
      */
     protected $handlerPreInterceptor;
 
     /**
-     * @var Closure|null $handlerPostInterceptor
+     * @var Closure|null $handlerPostInterceptor Обработчик post-access interceptor.
      */
     protected $handlerPostInterceptor;
 

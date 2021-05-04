@@ -1,6 +1,6 @@
 # Кэширующий проксификатор
 
-При помощи [FriendsOfPHP /proxy-manager-lts](https://github.com/FriendsOfPHP/proxy-manager-lts) - создается кэширующее прокси над любым объектом
+При помощи [FriendsOfPHP/proxy-manager-lts](https://github.com/FriendsOfPHP/proxy-manager-lts) - создается кэширующее прокси над любым объектом
 и (или) его публичным методом.
 
 ## Установка
