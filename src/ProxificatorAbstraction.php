@@ -11,11 +11,13 @@ use ReflectionException;
 /**
  * Class ProxificatorAbstraction
  * @package Prokl\CacheProxificator
+ *
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 class ProxificatorAbstraction extends BaseProxificator
 {
     /**
-     * @var OcramiusProxyHandlerPreInterface $handler Обработчик pre-access interceptor.
+     * @var OcramiusProxyHandlerPreInterface|null $handler Обработчик pre-access interceptor.
      */
     protected $preInterceptor;
 

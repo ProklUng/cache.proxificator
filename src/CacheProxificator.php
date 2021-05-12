@@ -12,6 +12,8 @@ use Symfony\Contracts\Cache\CacheInterface;
 /**
  * Class CacheProxificator
  * @package Prokl\CacheProxificator
+ *
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 class CacheProxificator extends BaseProxificator
 {
@@ -69,7 +71,7 @@ class CacheProxificator extends BaseProxificator
     public function handler($proxy, $instance, $method, $params, &$returnEarly)
     {
         $returnEarly = true;
-        $keyCache = $this->getCacheKey(get_class($instance) . $method . $this->implodeRecursive('', $params));
+        $keyCache = $this->getCacheKey(get_class($instance) . (string)$method . $this->implodeRecursive('', $params));
 
         return $this->cacher->get(
             $keyCache,
@@ -78,7 +80,7 @@ class CacheProxificator extends BaseProxificator
              * @return mixed
              */
             function (CacheItemInterface $item) use ($method, $params, $instance) {
-                return $this->reflectionProcessor->invoke($instance, $method, $params);
+                return $this->reflectionProcessor->invoke($instance, (string)$method, $params);
             }
         );
     }
@@ -130,7 +132,7 @@ class CacheProxificator extends BaseProxificator
                 $string .= serialize($a);
             }
             else {
-                $string .= $a;
+                $string .= (string)$a;
                 if ($i < count($array) - 1) {
                     $string .= $separator;
                 }

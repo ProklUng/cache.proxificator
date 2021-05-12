@@ -18,6 +18,9 @@ use RuntimeException;
  * @package Prokl\CacheProxificator\Base
  *
  * @since 01.05.2021
+ *
+ * @psalm-suppress MissingConstructor
+ * @psalm-suppress MixedArgumentTypeCoercion
  */
 class BaseProxificator
 {
@@ -27,7 +30,7 @@ class BaseProxificator
     protected $env = 'dev';
 
     /**
-     * @var string $cacheDir Директория, куда по умолчанию складываются прегенерированные прокси-классы.
+     * @var string|null $cacheDir Директория, куда по умолчанию складываются прегенерированные прокси-классы.
      */
     protected $cacheDir = __DIR__.'/generated-cache-dir';
 

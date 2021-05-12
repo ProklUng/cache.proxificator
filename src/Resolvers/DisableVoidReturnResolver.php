@@ -16,6 +16,7 @@ class DisableVoidReturnResolver implements MethodResolverInterface
 {
     /**
      * @inheritDoc
+     * @psalm-suppress UndefinedMethod
      */
     public function supply(ReflectionMethod $reflectionMethod): bool
     {

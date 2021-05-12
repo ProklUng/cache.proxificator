@@ -42,11 +42,12 @@ class CacheHandler implements OcramiusProxyHandlerPreInterface
 
     /**
      * @inheritDoc
+     * @psalm-suppress MissingParamType
      */
     public function handler($proxy, $instance, $method, $params, &$returnEarly)
     {
         $returnEarly = true;
-        $keyCache = $this->getCacheKey(get_class($instance) . $method . $this->implodeRecursive('', $params));
+        $keyCache = $this->getCacheKey(get_class($instance) . (string)$method . $this->implodeRecursive('', $params));
 
         return $this->cacher->get(
             $keyCache,
@@ -55,7 +56,7 @@ class CacheHandler implements OcramiusProxyHandlerPreInterface
              * @return mixed
              */
             function (CacheItemInterface $item) use ($method, $params, $instance) {
-                return $this->reflectionProcessor->invoke($instance, $method, $params);
+                return $this->reflectionProcessor->invoke($instance, (string)$method, $params);
             }
         );
     }
@@ -87,6 +88,11 @@ class CacheHandler implements OcramiusProxyHandlerPreInterface
     private function implodeRecursive(string $separator, array $array): string
     {
         $string = '';
+
+        /**
+         * @var string|int $i
+         * @var mixed      $a
+         */
         foreach ($array as $i => $a) {
             if (is_array($a)) {
                 $string .= $this->implodeRecursive($separator, $a);
@@ -95,7 +101,7 @@ class CacheHandler implements OcramiusProxyHandlerPreInterface
                 $string .= serialize($a);
             }
             else {
-                $string .= $a;
+                $string .= (string)$a;
                 if ($i < count($array) - 1) {
                     $string .= $separator;
                 }

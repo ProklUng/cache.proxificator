@@ -34,8 +34,8 @@ class ReflectionProcessor
     /**
      * Собрать все публичные методы класса и отдать данные.
      *
-     * @param mixed $object Объект или название класса.
-     * @param array $filter Фильтр методов (только эти).
+     * @param object|string $object Объект или название класса.
+     * @param array         $filter Фильтр методов (только эти).
      *
      * @return array
      *
@@ -76,7 +76,7 @@ class ReflectionProcessor
     /**
      * Вызвать метод.
      *
-     * @param mixed  $instance Экземпляр класса.
+     * @param object $instance Экземпляр класса.
      * @param string $method   Метод.
      * @param array  $params   Параметры в виде сортированного ассоциированного массива.
      *
@@ -104,6 +104,7 @@ class ReflectionProcessor
      */
     public function sortParamsMethod(ReflectionMethod $method, array $params) : array
     {
+        /** @var mixed[] $result */
         $result = [];
         $paramsMethod = $method->getParameters();
 

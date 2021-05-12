@@ -24,6 +24,8 @@ interface OcramiusProxyHandlerPreInterface
      * @throws InvalidArgumentException Когда с кэшом что-то не так.
      *
      * @see https://github.com/Ocramius/ProxyManager/blob/2.12.x/docs/access-interceptor-value-holder.md
+     *
+     * @psalm-suppress MissingParamType
      */
     public function handler($proxy, $instance, $method, $params, &$returnEarly);
 }

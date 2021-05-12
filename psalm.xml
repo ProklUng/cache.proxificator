@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<psalm
+    errorLevel="1"
+    resolveFromConfigFile="true"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+    allowStringToStandInForClass="true"
+    allowCoercionFromStringToClassConst="true"
+    findUnusedPsalmSuppress="true"
+    skipChecksOnUnresolvableIncludes="true"
+>
+    <plugins>
+        <pluginClass class="Psalm\SymfonyPsalmPlugin\Plugin"/>
+        <pluginClass class="Psalm\MockeryPlugin\Plugin"/>
+    </plugins>
+    <projectFiles>
+        <directory name="src"/>
+        <ignoreFiles>
+            <directory name="vendor"/>
+            <directory name="src/Tests"/>
+        </ignoreFiles>
+    </projectFiles>
+
+    <issueHandlers>
+        <InvalidCatch>
+            <errorLevel type="suppress">
+                <referencedClass name="Psr\SimpleCache\InvalidArgumentException"/>
+                <referencedClass name="Psr\Cache\InvalidArgumentException"/>
+            </errorLevel>
+        </InvalidCatch>
+        <InvalidThrow>
+            <errorLevel type="suppress">
+                <referencedClass name="Psr\SimpleCache\InvalidArgumentException"/>
+                <referencedClass name="Psr\Cache\InvalidArgumentException"/>
+            </errorLevel>
+        </InvalidThrow>
+        <MissingParamType>
+            <errorLevel type="suppress">
+                <file name="src/CacheProxificator.php"/>
+                <file name="src/Contracts/OcramiusProxyHandlerPostInterface.php"/>
+            </errorLevel>
+        </MissingParamType>
+        <MixedAssignment>
+            <errorLevel type="suppress">
+                <file name="src/ReflectionProcessor.php"/>
+                <file name="src/CacheProxificator.php"/>
+            </errorLevel>
+        </MixedAssignment>
+        <MixedArgument>
+            <errorLevel type="suppress">
+                <file name="src/Handlers/CacheHandler.php"/>
+                <file name="src/CacheProxificator.php"/>
+            </errorLevel>
+        </MixedArgument>
+        <MixedArgumentTypeCoercion>
+            <errorLevel type="suppress">
+                <file name="src/Base/BaseProxificator.php"/>
+            </errorLevel>
+        </MixedArgumentTypeCoercion>
+        <UnusedClosureParam>
+            <errorLevel type="suppress">
+                <file name="src/Handlers/CacheHandler.php"/>
+                <file name="src/CacheProxificator.php"/>
+            </errorLevel>
+        </UnusedClosureParam>
+    </issueHandlers>
+</psalm>
